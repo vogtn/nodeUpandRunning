@@ -14,11 +14,11 @@ chatServer.on('connection', function(client){
     broadcast(data,client)
   })
 
-  client.on('data',function(data){
+  function broadcast(message, client){
     for(var i =0; i < clientList.length; i+=1){
       //write data to all clientList
       if(client !== clientList[i]){
-              clientList[i].write(data);
+              clientList[i].write(client.name + " says " + message);
       }
     }
   })
