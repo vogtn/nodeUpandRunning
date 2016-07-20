@@ -1,27 +1,26 @@
-var net = require('net');
+var net = require('net')
 
-var chatServer = net.createServer();
+var chatServer = net.createServer(),
+    clientList = []
 
-var clientList = [];
+chatServer.on('connection', function(client) {
+  client.name = client.remoteAddress + ':' + client.remotePort
+  client.write('Hi ' + client.name + '!\n');
 
-chatServer.on('connection', function(client){
-  client.name = client.remoteAdress + ':' + client.remotePort
-  client.write('Hi!\n');
+  clientList.push(client)
 
-  clientList.push(client);
-
-  client.on('data', function(data){
-    broadcast(data,client)
-    })
+  client.on('data', function(data) {
+    broadcast(data, client)
   })
 
-  function broadcast(message, client){
-    for(var i =0; i < clientList.length; i+=1){
-      //write data to all clientList
-      if(client !== clientList[i]){
-              clientList[i].write(client.name + " says " + message);
-      }
+})
+
+function broadcast(message, client) {
+  for(var i=0;i<clientList.length;i+=1) {
+    if(client !== clientList[i]) {
+      clientList[i].write(client.name + " says " + message)
     }
+  }
 }
 
 chatServer.listen(9000)
