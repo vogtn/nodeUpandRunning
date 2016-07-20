@@ -12,6 +12,7 @@ chatServer.on('connection', function(client){
 
   client.on('data', function(data){
     broadcast(data,client)
+    })
   })
 
   function broadcast(message, client){
@@ -21,8 +22,6 @@ chatServer.on('connection', function(client){
               clientList[i].write(client.name + " says " + message);
       }
     }
-  })
-
-})
+}
 
 chatServer.listen(9000)
