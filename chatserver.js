@@ -5,7 +5,7 @@ var chatServer = net.createServer();
 var clientList = [];
 
 chatServer.on('connection', function(client){
-  client.name = client.remoteAdress + ':' _ client.remotePort
+  client.name = client.remoteAdress + ':' + client.remotePort
   client.write('Hi!\n');
 
   clientList.push(client);
