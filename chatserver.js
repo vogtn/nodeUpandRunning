@@ -5,14 +5,21 @@ var chatServer = net.createServer();
 var clientList = [];
 
 chatServer.on('connection', function(client){
+  client.name = client.remoteAdress + ':' _ client.remotePort
   client.write('Hi!\n');
 
   clientList.push(client);
 
+  client.on('data', function(data){
+    broadcast(data,client)
+  })
+
   client.on('data',function(data){
     for(var i =0; i < clientList.length; i+=1){
       //write data to all clientList
-      clientList[i].write(data);
+      if(client !== clientList[i]){
+              clientList[i].write(data);
+      }
     }
   })
 
