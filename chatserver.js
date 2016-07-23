@@ -21,8 +21,18 @@ chatServer.on('connection', function(client) {
 function broadcast(message, client) {
   for(var i=0;i<clientList.length;i+=1) {
     if(client !== clientList[i]) {
-      clientList[i].write(client.name + " says " + message)
+
+      if(clientList[i].writeable){
+        clientList[i].write(client.name + " says " + message)
+      } else {
+        cleanup.push(clientList[i])
+        clientList[i].destroy()
+      }
+
     }
+  } // Remove dead nodes out of write loop to avoid trashing loop index
+  for(i=0; i<cleanup.length; i+=1){
+    clientList.splice(clientList.indexOf(cleanup[i]),1)
   }
 }
 
