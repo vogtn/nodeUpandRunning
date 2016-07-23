@@ -6,6 +6,7 @@ var chatServer = net.createServer(),
 chatServer.on('connection', function(client) {
   client.name = client.remoteAddress + ':' + client.remotePort
   client.write('Hi ' + client.name + '!\n');
+  console.log(client.name + 'joined')
 
   clientList.push(client)
 
@@ -14,7 +15,11 @@ chatServer.on('connection', function(client) {
   })
 
   client.on('end', function(){
+    console.log(client.name + 'quit')
     clientList.splice(clientList.indexOf(client),1);
+  })
+  client.on('error', function(e){
+    console.log(e);
   })
 })
 
