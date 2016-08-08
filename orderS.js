@@ -1,8 +1,8 @@
-server.on('request', function(req, res) {
+server.on('request', getMemCached(req, res) {
   //get session information from memcached
-  memcached.getSession(req, function(session){
+  memcached.getSession(req, getDbInfo(session){
     //get information from db
-    db.get(session.user, function(userData){
+    db.get(session.user, getWsInfo(userData){
       //some other web service call
       ws.get(req,function(wsData){
         //render page
