@@ -9,7 +9,7 @@ if (cluster.isMaster){
   }
   cluster.on('death', function(worker){
     console.log('worker '+ worker.pid + 'died');
-  });
+    cluster.fork();
 }else{
   //worker processes have a http server.
   http.Server(function(req, res){
