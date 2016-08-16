@@ -12,3 +12,4 @@ var s = new Server();
 s.on('abc', function() {
   console.log('abc');
 });
+s.emit('abc');
